@@ -1,54 +1,78 @@
 import flet as ft
+from views.ingresos_view import ingresos_view
 
-# Crear la función que representa la página
 def main(page: ft.Page):
+    # Configuración de la ventana
     page.window.min_height = 820
     page.window.min_width = 1024
+    page.bgcolor = '#433E3F'
+    page.padding = 5
     
-    # Crear la barra de navegación
+    # Función para cambiar las vistas
+    def view(value):
+        if value == 0:
+            content.controls[0] = ingresos_view()  # Actualizar el contenido principal
+        elif value == 1:
+            content.controls[0] = ingresos_view()  # Se puede cambiar por otra vista
+        elif value == 2:
+            content.controls[0] = ingresos_view()  # Se puede cambiar por otra vista
+        content.update()
+    
+    # Barra de navegación flotante
     navigation = ft.Container(
-        width=60,
-        bgcolor='#7f4f24',
+            ft.Column(
+                 controls=[
+                    ft.IconButton(
+                    icon=ft.Icons.MOTORCYCLE_SHARP,
+                    icon_color='white',
+                    tooltip="Ingreso de motos",
+                    on_click=lambda: view(0),
+                    ),
+                    ft.IconButton(
+                    icon=ft.Icons.PERSON,
+                    icon_color='white',
+                    tooltip="Clientes",
+                    on_click=lambda: view(1),
+                    ),
+                    ft.IconButton(
+                    icon=ft.Icons.MANAGE_SEARCH,
+                    icon_color='white',
+                    tooltip="Historial de motos",
+                    on_click=lambda: view(2),
+                    ),
+                    ft.IconButton(
+                        icon=ft.Icons.DOCUMENT_SCANNER_OUTLINED,
+                        icon_color='white',
+                        tooltip="Facturas",
+                        on_click=lambda: view(3),
+                    ),
+
+            ],
+    ),
+        bgcolor='#8e6e53',
+        padding=5,
+        width=50,
         border_radius=10,
-        content= ft.Column(
-            controls=[
-                ft.NavigationRail(
-                    height=800,
-                    selected_index=0,
-                    bgcolor='#7f4f24',
-                    destinations=[
-                        ft.NavigationDestination(
-                            icon= ft.Icons.HOME,
-                            label='Inicio',
-                        ),
-                        ft.NavigationDestination(
-                            icon= ft.Icons.INFO,
-                        ),
-                        ft.NavigationDestination(
-                            icon= ft.Icons.SETTINGS,
-                        ),
-                    ],
-                    on_change=lambda e: print(e.control.selected_index),
-                ),
-            ]
-        ),
     )
+
+
     
-    # Crear el contenido principal
-    content = ft.Container(
+    # Contenedor de contenido principal
+    content = ft.Column(
         expand=True,
-        content= ft.Column(
-            controls=[
-                ft.Text("Bienvenido a la Página de Inicio", size=30, weight=ft.FontWeight.BOLD),
-                ft.Text("Aquí hay información importante."),
-            ]
-        )
+        controls=[ingresos_view()],
     )
     
+    # Estructura de la página
     page.add(
         ft.Row(
-            controls=[navigation, content],
-            height=820
+            controls=[
+                ft.Container(
+                    content=navigation,
+                    padding= 5
+                ),
+                ft.Container(content=content, expand=True),
+            ],
         )
     )
 
