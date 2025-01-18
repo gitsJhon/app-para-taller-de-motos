@@ -1,7 +1,7 @@
 import _sqlite3
 import os
 
-DB_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "BD", "taller.db")
+DB_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "BD", "BD.db")
 
 def conectar():
     try:
