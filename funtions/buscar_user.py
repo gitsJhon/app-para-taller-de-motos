@@ -6,7 +6,7 @@ def user(cedula):
     if not conn or not cursor:
         return None
     try:
-        cursor.execute("SELECT id,email, nombre FROM usuarios WHERE id = ?", (cedula))
+        cursor.execute("SELECT id,email, nombre FROM usuarios WHERE id = ?", (cedula,))
         resultado = cursor.fetchone()
         if resultado:
             return {
@@ -18,6 +18,7 @@ def user(cedula):
             return None
     except _sqlite3.Error as e:
         print(f"Error en la consulta: {e}")  # Debugging
+        print(f"Valor de cedula recibido: {cedula}")
         return None
     finally:
         desconectar(conn)
