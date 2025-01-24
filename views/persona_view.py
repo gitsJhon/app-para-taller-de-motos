@@ -1,5 +1,6 @@
 import flet as ft
 from funtions.buscar_user import user
+from funtions.ingresar_persona import ingresar_user
 
 def user_view():
     dynamic_content = ft.Container(
@@ -18,7 +19,24 @@ def user_view():
         width=200,
         on_change=lambda e: toggle_buttons(e.control.value),
     )
-
+    nombre = ft.TextField(
+        label="Nombre Completo",
+        width=200,
+    )
+    email = ft.TextField(
+        label="Email",
+        width=200
+    )
+    send_butom = ft.ElevatedButton(
+        "Registrar cliente",
+        icon= ft.Icons.PERSON_ADD,
+        on_click= lambda e: ingresar_user(
+            cedula.value.strip(),
+            email.value.strip(),
+            nombre.value.strip()
+        ),
+        disabled= True
+    )
     search_button = ft.IconButton(
         icon=ft.Icons.SEARCH,
         tooltip="Buscar",
@@ -48,6 +66,10 @@ def user_view():
                 ft.Column(
                     controls=[
                         ft.Text("No se encontró el usuario, por favor regístrelo."),
+                        ft.Row(
+                            controls=[nombre,email],
+                        ),
+                        send_butom
                     ]
                 )
             )
@@ -57,8 +79,12 @@ def user_view():
         padding=20,  # Espaciado interno alrededor del contenido
         content=ft.Column(  # Usa ft.Column para encapsular los controles
             controls=[
-                cedula,
-                search_button,
+                ft.Row(
+                    controls=[
+                        cedula,
+                        search_button,
+                    ]
+                ),
                 dynamic_content,
             ]
         ),
